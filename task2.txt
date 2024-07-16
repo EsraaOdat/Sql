@@ -1,0 +1,90 @@
+
+
+CREATE DATABASE SchoolSystem;
+
+
+
+
+
+
+
+
+
+-- Create the Teachers table
+CREATE TABLE Teachers (
+    TeacherID INT PRIMARY KEY,
+    TeacherName VARCHAR(50)
+);
+
+
+
+-- Create the TeacherDetails table
+CREATE TABLE TeacherDetails (
+    TeacherDetailID INT PRIMARY KEY,
+    TeacherID INT,
+	age int
+  
+    FOREIGN KEY (TeacherID) REFERENCES Teachers(TeacherID)
+);
+
+
+
+-- Create the Courses table
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(100),
+    TeacherID INT,
+    FOREIGN KEY (TeacherID) REFERENCES Teachers(TeacherID)
+);
+
+-- Create the Students table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+   StudentName VARCHAR(50),
+);
+
+-- Insert sample records into Teachers table
+INSERT INTO Teachers (TeacherID,  TeacherName) VALUES
+(1, 'John'),
+(2, 'Jane'),
+(3, 'Emily'),
+(4, 'Michael'),
+(5, 'Sarah');
+select * from Teachers;
+
+-- Insert sample records into TeacherDetails table
+INSERT INTO TeacherDetails (TeacherDetailID, TeacherID , age) VALUES
+(1, 1,35),
+(2, 2,33),
+(3, 3,40),
+(4, 4,60 ),
+(5, 5,50);
+
+
+select * from TeacherDetails;
+
+-- Insert sample records into Courses table
+INSERT INTO Courses (CourseID, CourseName, TeacherID) VALUES
+(1, 'Mathematics', 1),
+(2, 'Science', 2),
+(3, 'History', 3),
+(4, 'English', 4),
+(5, 'Art', 5);
+select * from Courses;
+
+
+-- Insert sample records into Students table
+INSERT INTO Students (StudentID, StudentName) VALUES
+(1, 'Alice'),
+(2, 'Bob'),
+(3, 'Charlie'),
+(4, 'David'),
+(5, 'Eve');
+
+
+SELECT CourseID, CourseName
+FROM Courses;
+
+
+
+select * from Students;

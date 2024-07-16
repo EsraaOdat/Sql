@@ -1,0 +1,83 @@
+
+CREATE TABLE Authors (
+    AuthorID INT ,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    BirthYear date );
+
+
+
+CREATE TABLE Books (
+    BookID INT  ,
+    Title VARCHAR(100),
+    AuthorID INT,
+    PublishedYear INT,
+    CopiesAvailable INT,
+    BookCategory VARCHAR(50)
+   );
+
+
+
+
+INSERT INTO Authors  VALUES
+    (1,'Jane', 'Austen', '2001-10-07'),
+    (2,'Mark', 'Twain', '1999-01-24'),
+    (3,'Fyodor', 'Dostoevsky', '2009-03-29'),
+    (4,'Gabriel', 'Garcia Marquez', '2003-11-04'),
+    (5,'Chinua', 'Achebe', '2006-05-07');
+
+
+
+
+
+INSERT INTO Books VALUES
+    (1,'Pride and Prejudice', 1, 1813, 12, 'Classic'),
+    (2,'Adventures of Huckleberry Finn', 2, 1884, 8, 'Adventure'),
+    (3,'Crime and Punishment', 3, 1866, 5, 'Philosophical Fiction'),
+    (4,'One Hundred Years of Solitude', 4, 1967, 10, 'Magical Realism'),
+    (5,'Things Fall Apart', 5, 1958, 7, 'Historical Fiction');
+	
+	
+	
+	
+	
+	
+	--Q1
+	
+	select * from Authors;
+
+	select * from Books;
+
+		--Q2
+
+	SELECT MIN(CopiesAvailable) as min_CopiesAvailable
+    FROM Books;
+
+
+		SELECT max(CopiesAvailable) as max_CopiesAvailable
+    FROM Books;
+
+--Q3
+
+SELECT AVG(PublishedYear) AS AveragePublicationYear 
+FROM Books;
+
+
+--Q4
+
+
+SELECT COUNT(*) AS TotalBooksCount 
+FROM Books;
+
+
+--Q5
+
+TRUNCATE TABLE Books;
+
+
+--Q5
+
+drop TABLE Authors;
+
+
+
