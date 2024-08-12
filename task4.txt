@@ -1,0 +1,226 @@
+CREATE DATABASE SchoolManagmentSystem;
+
+USE SchoolManagmentSystem;
+
+-- Create the Courses table
+CREATE TABLE Courses (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    CourseName VARCHAR(15),
+    CourseDescription VARCHAR(50),
+    Resources VARCHAR(15)
+);
+
+-- Insert data into the Courses table
+INSERT INTO Courses (CourseName, CourseDescription, Resources) VALUES
+('C#', 'This is a course on C#', 'Book1'),
+('C++', 'This is a course on C++', 'Book2'),
+('Python', 'This is a course on Python', 'Book3'),
+('JavaScript', 'This is a course on JavaScript', 'Book4'),
+('Java', 'This is a course on Java', 'Book5');
+
+-- Create the Classes table
+CREATE TABLE Calsses (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    ClassName VARCHAR(15),
+    ClassCode INT,
+    RoomNumber INT,
+    CourseID INT,
+    FOREIGN KEY (CourseID) REFERENCES Courses(ID)
+);
+
+-- Insert data into the Classes table
+INSERT INTO Calsses (ClassName, ClassCode, RoomNumber, CourseID) VALUES
+('Intro to C#', 101, 301, 1),
+('Advanced C++', 102, 302, 2),
+('Python Basics', 103, 303, 3),
+('JavaScript 101', 104, 304, 4),
+('Java Program', 105, 305, 5);
+
+-- Create the Students table
+CREATE TABLE Students (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(15),
+    BDate DATE,
+    IDCalsse INT,
+    Adress VARCHAR(15),
+    Info VARCHAR(15),
+    FOREIGN KEY (IDCalsse) REFERENCES Calsses(ID)
+);
+
+-- Insert data into the Students table
+INSERT INTO Students (Name, BDate, IDCalsse, Adress, Info) VALUES 
+('Esraa Odat', '2001-10-07', 1, 'Amman', 'info1'),
+('Majd', '1994-05-15', 2, 'Jarash', 'info2'),
+('John Flek', '2003-01-10', 3, 'Irbid', 'info3'),
+('Flora Sese', '1970-07-10', 4, 'Aqaba', 'info4'),
+('Dana Odat', '2007-02-01', 5, 'Europ', 'info5');
+
+-- Create the Students_Courses table
+CREATE TABLE Students_Courses (
+    StudentID INT,
+    CourseID INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(ID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(ID),
+    PRIMARY KEY (StudentID, CourseID)
+);
+
+-- Insert data into the Students_Courses table
+INSERT INTO Students_Courses (StudentID, CourseID) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(3, 4),
+(3, 5),
+(4, 2),
+(4, 3);
+
+-- Create the FamilyInfo table
+CREATE TABLE FamilyInfo (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    FatherName VARCHAR(25),
+    FatherPhone VARCHAR(15),
+    StdID INT,
+    FOREIGN KEY (StdID) REFERENCES Students(ID)
+);
+
+-- Insert data into the FamilyInfo table
+INSERT INTO FamilyInfo (FatherName, FatherPhone, StdID) VALUES
+('Mohammed Odat', '0797182579', 1),
+('Hammad Khaled', '0788807750', 2),
+('Gorge Son', '0799552510', 3),
+('Koko Jojo', '0777777545', 4),
+('Mohammed Odat', '0797182579', 5);
+
+-- Create the Calsses_Courses table
+CREATE TABLE Calsses_Courses (
+    CalssesID INT,
+    CourseID INT,
+    FOREIGN KEY (CalssesID) REFERENCES Calsses(ID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(ID),
+    PRIMARY KEY (CalssesID, CourseID)
+);
+
+-- Insert data into the Calsses_Courses table
+INSERT INTO Calsses_Courses (CalssesID, CourseID) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(3, 4),
+(3, 5),
+(4, 2),
+(4, 3);
+
+-- Create the Assignments table
+CREATE TABLE Assignments (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    AssignmentName VARCHAR(25),
+    AssignmentDescription VARCHAR(50),
+    AssignmetDate DATE,
+    AssignmentStatus VARCHAR(15),
+    CourseID INT,
+    FOREIGN KEY (CourseID) REFERENCES Courses(ID)
+);
+
+-- Insert data into the Assignments table
+INSERT INTO Assignments (AssignmentName, AssignmentDescription, AssignmetDate, AssignmentStatus, CourseID) VALUES
+('C# Project', 'Create a C# application', '2024-07-01', 'Pending', 1),
+('C++ Homework', 'Solve C++ exercises', '2024-07-02', 'Completed', 2),
+('Python Script', 'Write a Python script', '2024-07-03', 'Pending', 3),
+('JS Task', 'Build a JS web page', '2024-07-04', 'In Progress', 4),
+('Java App', 'Develop a Java app', '2024-07-05', 'Completed', 5);
+
+-- Create the Students_Assignment table
+CREATE TABLE Students_Assignment (
+    StudentsID INT,
+    AssignmentID INT,
+    FOREIGN KEY (StudentsID) REFERENCES Students(ID),
+    FOREIGN KEY (AssignmentID) REFERENCES Assignments(ID),
+    PRIMARY KEY (StudentsID, AssignmentID)
+);
+
+-- Insert data into the Students_Assignment table
+INSERT INTO Students_Assignment (StudentsID, AssignmentID) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(1, 3),
+(2, 4);
+
+-- Create the Attendances table
+CREATE TABLE Attendances (
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    AttendenceDate DATE,
+    AttendenceType VARCHAR(15),
+    StudentID INT,
+    FOREIGN KEY (StudentID) REFERENCES Students(ID)
+);
+
+-- Insert data into the Attendances table
+INSERT INTO Attendances (AttendenceDate, AttendenceType, StudentID) VALUES
+('2024-01-01', 'Leaving', 1),
+('2024-01-03', 'Absence', 2),
+('2024-05-25', 'Leaving', 3),
+('2024-04-19', 'Late', 4),
+('2024-07-05', 'Late', 1);
+
+
+--Answer Question :
+
+--Q1:
+SELECT s.id ,s.name , a.AttendenceDate,s.BDate
+FROM Students s
+JOIN Attendances a ON s.ID = a.StudentID
+WHERE a.AttendenceDate = '2024-01-01';
+
+--Q2:
+SELECT *
+FROM Courses
+WHERE CourseName = 'Java';
+
+--Q3:
+ALTER TABLE Students ADD Email varchar(50);
+
+--Q4:
+INSERT INTO Students (Name, BDate, Adress, Info, Email) VALUES ('ESRAA', '2000-01-01', 'Amman', 'New Info', 'ESRAAYacoub@gmail.com'); 
+
+--Q5:SELECT *
+FROM Students s
+JOIN FamilyInfo f ON s.ID = f.StdID
+;
+
+
+--Q6:
+SELECT s.*
+FROM Students s
+JOIN Students_Courses sc ON s.ID = sc.StudentID
+JOIN Courses c ON sc.CourseID = c.ID
+WHERE c.CourseName = 'Java';
+
+--Q7:
+SELECT Students.Name
+FROM Students
+JOIN Students_Assignment ON Students.ID = Students_Assignment.StudentsID
+JOIN Assignments ON Students_Assignment.AssignmentID = Assignments.ID
+WHERE Assignments.AssignmentName = 'C# Project' AND Assignments.AssignmentStatus = 'Completed';
+
+
+--Q8:
+SELECT s.*
+FROM Students s
+JOIN Attendances a ON s.ID = a.StudentID
+WHERE a.AttendenceType = 'Leaving'
+AND a.AttendenceDate BETWEEN '2024-01-01' AND '2024-01-05'; 
+
+--Q9:
+SELECT Students.Name, COUNT(Attendances.ID) AS AbsenceCount
+FROM Students
+JOIN Attendances ON Students.ID = Attendances.StudentID
+WHERE Attendances.AttendenceType = 'Absence'
+GROUP BY Students.Name
+HAVING COUNT(Attendances.ID) > 4;
+
+
